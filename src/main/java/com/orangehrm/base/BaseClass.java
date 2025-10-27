@@ -99,7 +99,7 @@ public class BaseClass {
 			options.addArguments("--disable-notifications"); // Disable browser notification
 			options.addArguments("--no-sandbox"); // Required for some CI environment
 			options.addArguments("--disable-dev-shm-usage"); // Resolve issues in resources
-			//options.addArguments("--start-maximized"); // Ensures all elements are in viewport
+			options.addArguments("--start-maximized"); // Ensures all elements are in viewport
 			options.addArguments("--remote-allow-origins=*"); // Useful for latest ChromeDriver versions
 			options.addArguments("--disable-blink-features=AutomationControlled");
 			
