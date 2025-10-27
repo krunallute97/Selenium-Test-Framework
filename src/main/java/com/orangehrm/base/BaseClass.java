@@ -107,7 +107,7 @@ public class BaseClass {
 			
 			// Auto-download correct ChromeDriver version
 			// WebDriverManager.chromedriver().driverVersion("140.0.7339.207").setup();
-
+            //New changes
 			WebDriverManager.chromedriver().setup();
 
 			driver.set(new ChromeDriver(options)); // New changes as per thread
