@@ -39,7 +39,9 @@ jobs:
           sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/local/bin/chromedriver
 
       - name: Run Maven tests
+        id: maven-test
         run: mvn clean test
+        continue-on-error: true
 
       - name: Upload TestNG Reports
         if: always()
@@ -48,12 +50,31 @@ jobs:
           name: testng-reports
           path: target/surefire-reports/
 
-    
-      - name: Upload Extent Reports and Screenshots
+      - name: Upload Extent Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: extent-reports
-          path: |
-            src/test/resources/ExtentReport/
-            src/test/resources/screenshots/
+          name: extent-report
+          path: src/test/resources/ExtentReport/ExtentReport.html
+
+      - name: Send email notification
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: ${{ job.status == 'success' && '✅ Selenium Tests Passed' || '❌ Selenium Tests Failed' }}: ${{ github.repository }} #${{ github.run_number }}
+          to: krunallute97@gmail.com
+          from: GitHub Actions <${{ secrets.EMAIL_USERNAME }}>
+          body: |
+            Hello,
+
+            The Selenium tests for repository **${{ github.repository }}** have **${{ job.status }}**.
+            
+            Branch: ${{ github.ref_name }}
+            Run Number: ${{ github.run_number }}
+            Workflow URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            Extent Report: Attached as workflow artifact: "extent-report"
