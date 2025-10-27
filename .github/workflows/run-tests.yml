@@ -65,7 +65,8 @@ jobs:
           server_port: 465
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: ${{ job.status == 'success' && '✅ Selenium Tests Passed' || '❌ Selenium Tests Failed' }}: ${{ github.repository }} #${{ github.run_number }}
+          subject: ${{ job.status == 'success' ? '✅ Selenium Tests Passed' : '❌ Selenium Tests Failed' }}: ${{ github.repository }} #${{ github.run_number }}
+
           to: krunallute97@gmail.com
           from: GitHub Actions <${{ secrets.EMAIL_USERNAME }}>
           body: |
