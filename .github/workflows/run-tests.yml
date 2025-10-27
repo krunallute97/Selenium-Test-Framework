@@ -47,3 +47,13 @@ jobs:
         with:
           name: testng-reports
           path: target/surefire-reports/
+
+    
+      - name: Upload Extent Reports and Screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: extent-reports
+          path: |
+            src/test/resources/ExtentReport/
+            src/test/resources/screenshots/
