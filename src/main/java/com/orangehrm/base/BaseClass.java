@@ -25,6 +25,7 @@ import com.orangehrm.actiondriver.ActionDriver;
 import com.orangehrm.utilities.ExtentManager;
 import com.orangehrm.utilities.LoggerManager;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BaseClass {
 
@@ -94,16 +95,23 @@ public class BaseClass {
 			options.addArguments("--disable-gpu");
 			options.addArguments("--window-size=2560,1440");// disable GPU for headless mode
 			options.addArguments("--force-device-scale-factor=0.8");
-			options.addArguments("--high-dpi-support=1"); // optional
+			//options.addArguments("--high-dpi-support=1"); // optional
 			options.addArguments("--disable-notifications"); // Disable browser notification
 			options.addArguments("--no-sandbox"); // Required for some CI environment
 			options.addArguments("--disable-dev-shm-usage"); // Resolve issues in resources
-			options.addArguments("--start-maximized"); // Ensures all elements are in viewport
+			//options.addArguments("--start-maximized"); // Ensures all elements are in viewport
 			options.addArguments("--remote-allow-origins=*"); // Useful for latest ChromeDriver versions
+			options.addArguments("--disable-blink-features=AutomationControlled");
 			
+			
+			
+			// Auto-download correct ChromeDriver version
+			// WebDriverManager.chromedriver().driverVersion("140.0.7339.207").setup();
+
+			WebDriverManager.chromedriver().setup();
 
 			driver.set(new ChromeDriver(options)); // New changes as per thread
-			getDriver().manage().window().setSize(new Dimension(2560, 1440));
+			//getDriver().manage().window().setSize(new Dimension(2560, 1440));
 			ExtentManager.registerDriver(getDriver());
 			logger.info("ChromeDriver Instance is created");
 		} else if (browser.equalsIgnoreCase("firefox")) {
