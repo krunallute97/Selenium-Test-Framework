@@ -5,8 +5,10 @@ pipeline {
         maven 'maven-3.9.9' 
     }
 
-   /* environment {
-        COMPOSE_PATH = "${WORKSPACE}/docker" // 🔁 Adjust if compose file is elsewhere
+    // Uncomment and use if you want Docker Grid setup
+    /*
+    environment {
+        COMPOSE_PATH = "${WORKSPACE}/docker" 
         SELENIUM_GRID = "true"
     }
 
@@ -17,11 +19,13 @@ pipeline {
                     echo "Starting Selenium Grid with Docker Compose..."
                     bat "docker compose -f ${COMPOSE_PATH}\\docker-compose.yml up -d"
                     echo "Waiting for Selenium Grid to be ready..."
-                    sleep 30 // Add a wait if needed
+                    sleep 30 
                 }
             }
-        }*/
-
+        }
+    */
+    
+    stages {
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/hverma22/Selenium-Test-Framework.git'
@@ -40,20 +44,23 @@ pipeline {
             }
         }
 
-       /* stage('Stop Selenium Grid') {
+        // Uncomment if you start grid above
+        /*
+        stage('Stop Selenium Grid') {
             steps {
                 script {
                     echo "Stopping Selenium Grid..."
                     bat "docker compose -f ${COMPOSE_PATH}\\docker-compose.yml down"
                 }
             }
-        }*/
+        }
+        */
 
         stage('Reports') {
             steps {
                 publishHTML(target: [
-                    reportDir: 'src/test/resources/ExtentReport',  
-                    reportFiles: 'SparkReport.html',  
+                    reportDir: 'src/test/resources/ExtentReport',
+                    reportFiles: 'SparkReport.html',
                     reportName: 'Extent Report'
                 ])
             }
@@ -67,7 +74,7 @@ pipeline {
         }
 
         success {
-            emailext (
+            emailext(
                 to: 'hitendraverma22@gmail.com',
                 subject: "Build Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """
@@ -91,7 +98,7 @@ pipeline {
         }
 
         failure {
-            emailext (
+            emailext(
                 to: 'hitendraverma22@gmail.com',
                 subject: "Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """
