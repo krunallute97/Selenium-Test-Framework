@@ -96,6 +96,13 @@
 			<artifactId>webdrivermanager</artifactId>
 			<version>6.3.2</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.epam.healenium/healenium-web -->
+		<dependency>
+			<groupId>com.epam.healenium</groupId>
+			<artifactId>healenium-web</artifactId>
+			<version>3.5.7</version>
+		</dependency>
 	</dependencies>
 
 	<build>
