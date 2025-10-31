@@ -28,19 +28,19 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/hverma22/Selenium-Test-Framework.git'
+                git branch: 'main', url: 'https://github.com/krunallute97/Selenium-Test-Framework.git'
             }
         }
 
         stage('Build') {
             steps {
-                bat 'mvn clean install -DseleniumGrid=true'
+                bat 'mvn clean install'
             }
         }
 
         stage('Test') {
             steps {
-                bat "mvn clean test -DseleniumGrid=true"
+                bat "mvn clean test"
             }
         }
 
@@ -75,7 +75,7 @@ pipeline {
 
         success {
             emailext(
-                to: 'hitendraverma22@gmail.com',
+                to: 'krunallute97@gmail.com',
                 subject: "Build Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """
                 <html>
@@ -99,7 +99,7 @@ pipeline {
 
         failure {
             emailext(
-                to: 'hitendraverma22@gmail.com',
+                to: 'krunallute97@gmail.com',
                 subject: "Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """
                 <html>
