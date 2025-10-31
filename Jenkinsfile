@@ -40,7 +40,7 @@ pipeline {
 
         stage('Test') {
            steps {
-                bat "mvn clean test -DsuiteXmlFile=testng.xml"
+                bat "mvn clean test"
             }
         }
 
@@ -70,7 +70,7 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: '**/src/test/resources/ExtentReport/*.html', fingerprint: true
-            junit '**/target/surefire-reports/testng-results.xml'
+            junit '/target/surefire-reports/*.xml'
         }
 
         success {
